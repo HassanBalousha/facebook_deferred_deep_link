@@ -5,7 +5,7 @@ Pod::Spec.new do |s|
   s.description      = <<-DESC
 Fetches the deferred deep link of a Meta (Facebook) app install ad using the official Facebook SDK.
                        DESC
-  s.homepage         = 'https://pub.dev/packages/facebook_deferred_deep_link'
+  s.homepage         = 'https://github.com/HassanBalousha/facebook_deferred_deep_link'
   s.license          = { :file => '../LICENSE' }
   s.author           = { 'AlHasssan Balousha' => '' }
   s.source           = { :path => '.' }

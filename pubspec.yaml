@@ -1,6 +1,8 @@
 name: facebook_deferred_deep_link
 description: Fetch the deferred deep link of a Meta (Facebook) app install ad on Android and iOS, using the official Facebook SDK without changing its settings.
 version: 0.1.0
+repository: https://github.com/HassanBalousha/facebook_deferred_deep_link
+issue_tracker: https://github.com/HassanBalousha/facebook_deferred_deep_link/issues
 
 topics:
   - facebook
