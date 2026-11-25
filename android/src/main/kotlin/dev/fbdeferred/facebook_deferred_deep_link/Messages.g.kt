@@ -65,7 +65,7 @@ private open class MessagesPigeonCodec : StandardMessageCodec() {
 
 /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
 interface FacebookDeferredDeepLinkPluginApi {
-  suspend fun fetchDeferredDeepLink(): String?
+  suspend fun fetchDeferredDeepLink(debug: Boolean): String?
 
   companion object {
     /** The codec used by FacebookDeferredDeepLinkPluginApi. */
@@ -79,10 +79,12 @@ interface FacebookDeferredDeepLinkPluginApi {
       run {
         val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.facebook_deferred_deep_link.FacebookDeferredDeepLinkPluginApi.fetchDeferredDeepLink$separatedMessageChannelSuffix", codec)
         if (api != null) {
-          channel.setMessageHandler { _, reply ->
+          channel.setMessageHandler { message, reply ->
+            val args = message as List<Any?>
+            val debugArg = args[0] as Boolean
             CoroutineScope(Dispatchers.Main).launch {
               val wrapped: List<Any?> = try {
-                listOf(api.fetchDeferredDeepLink())
+                listOf(api.fetchDeferredDeepLink(debugArg))
               } catch (exception: Throwable) {
                 MessagesPigeonUtils.wrapError(exception)
               }

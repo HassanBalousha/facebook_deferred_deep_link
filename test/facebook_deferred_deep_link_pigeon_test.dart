@@ -21,6 +21,17 @@ void main() {
 
     expect(await plugin.fetchDeferredDeepLink(), isNull);
   });
+
+  test('fetchDeferredDeepLink passes the debug flag to the host', () async {
+    final api = FakeFacebookDeferredDeepLinkPluginApi(null);
+    final plugin = PigeonFacebookDeferredDeepLink(api: api);
+
+    await plugin.fetchDeferredDeepLink();
+    expect(api.receivedDebug, isFalse);
+
+    await plugin.fetchDeferredDeepLink(debug: true);
+    expect(api.receivedDebug, isTrue);
+  });
 }
 
 class FakeFacebookDeferredDeepLinkPluginApi
@@ -28,9 +39,13 @@ class FakeFacebookDeferredDeepLinkPluginApi
   FakeFacebookDeferredDeepLinkPluginApi(this.link);
 
   final String? link;
+  bool? receivedDebug;
 
   @override
-  Future<String?> fetchDeferredDeepLink() async => link;
+  Future<String?> fetchDeferredDeepLink(bool debug) async {
+    receivedDebug = debug;
+    return link;
+  }
 
   @override
   // ignore: non_constant_identifier_names

@@ -72,6 +72,7 @@ kotlin {
 }
 
 dependencies {
+    implementation("com.facebook.android:facebook-core:[18.0,19.0)")
     implementation("com.facebook.android:facebook-applinks:[18.0,19.0)")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2")
     testImplementation("org.jetbrains.kotlin:kotlin-test")

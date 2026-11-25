@@ -71,7 +71,7 @@ class FacebookDeferredDeepLinkPluginApi {
 
   final String pigeonVar_messageChannelSuffix;
 
-  Future<String?> fetchDeferredDeepLink() async {
+  Future<String?> fetchDeferredDeepLink(bool debug) async {
     final pigeonVar_channelName =
         'dev.flutter.pigeon.facebook_deferred_deep_link.FacebookDeferredDeepLinkPluginApi.fetchDeferredDeepLink$pigeonVar_messageChannelSuffix';
     final pigeonVar_channel = BasicMessageChannel<Object?>(
@@ -79,7 +79,8 @@ class FacebookDeferredDeepLinkPluginApi {
       pigeonChannelCodec,
       binaryMessenger: pigeonVar_binaryMessenger,
     );
-    final Future<Object?> pigeonVar_sendFuture = pigeonVar_channel.send(null);
+    final Future<Object?> pigeonVar_sendFuture =
+        pigeonVar_channel.send(<Object?>[debug]);
     final pigeonVar_replyList = await pigeonVar_sendFuture as List<Object?>?;
     final Object? pigeonVar_replyValue = _extractReplyValueOrThrow(
       pigeonVar_replyList,

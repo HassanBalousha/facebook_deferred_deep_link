@@ -98,7 +98,7 @@ class MessagesPigeonCodec: FlutterStandardMessageCodec, @unchecked Sendable {
 
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol FacebookDeferredDeepLinkPluginApi {
-  func fetchDeferredDeepLink() async throws -> String?
+  func fetchDeferredDeepLink(debug: Bool) async throws -> String?
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
@@ -109,10 +109,12 @@ class FacebookDeferredDeepLinkPluginApiSetup {
     let channelSuffix = messageChannelSuffix.count > 0 ? ".\(messageChannelSuffix)" : ""
     let fetchDeferredDeepLinkChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.facebook_deferred_deep_link.FacebookDeferredDeepLinkPluginApi.fetchDeferredDeepLink\(channelSuffix)", binaryMessenger: binaryMessenger, codec: codec)
     if let api = api {
-      fetchDeferredDeepLinkChannel.setMessageHandler { _, reply in
+      fetchDeferredDeepLinkChannel.setMessageHandler { message, reply in
+        let args = message as! [Any?]
+        let debugArg = args[0] as! Bool
         Task { @MainActor in
           do {
-            let result = try await api.fetchDeferredDeepLink()
+            let result = try await api.fetchDeferredDeepLink(debug: debugArg)
             reply(wrapResult(result))
           } catch {
             reply(wrapError(error))

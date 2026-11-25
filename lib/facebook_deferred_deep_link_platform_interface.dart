@@ -27,7 +27,10 @@ abstract class FacebookDeferredDeepLinkPlatform extends PlatformInterface {
   }
 
   /// Returns the raw deferred deep link from the Facebook SDK, or `null`.
-  Future<String?> fetchDeferredDeepLink() {
+  ///
+  /// When [debug] is `true`, the result and the Facebook SDK network requests
+  /// are logged to the native console.
+  Future<String?> fetchDeferredDeepLink({bool debug = false}) {
     throw UnimplementedError(
         'fetchDeferredDeepLink() has not been implemented.');
   }

@@ -9,7 +9,22 @@ public class FacebookDeferredDeepLinkPlugin: NSObject, FlutterPlugin, FacebookDe
       binaryMessenger: registrar.messenger(), api: FacebookDeferredDeepLinkPlugin())
   }
 
-  func fetchDeferredDeepLink() async throws -> String? {
+  func fetchDeferredDeepLink(debug: Bool) async throws -> String? {
+    if debug {
+      Settings.shared.enableLoggingBehavior(.networkRequests)
+      NSLog("[FacebookDeferredDeepLink] Fetching deferred deep link")
+    }
+    do {
+      let link = try await fetch()
+      if debug { NSLog("[FacebookDeferredDeepLink] Deferred deep link: %@", link ?? "none") }
+      return link
+    } catch {
+      if debug { NSLog("[FacebookDeferredDeepLink] Deferred deep link fetch failed: %@", "\(error)") }
+      throw error
+    }
+  }
+
+  private func fetch() async throws -> String? {
     try await withCheckedThrowingContinuation { continuation in
       AppLinkUtility.fetchDeferredAppLink { url, error in
         if let error = error {

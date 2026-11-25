@@ -7,7 +7,7 @@ When a user taps a Meta ad, installs your app and opens it for the first time, t
 ## Why this plugin
 
 - **One method, nothing else.** It calls `AppLinkData.fetchDeferredAppLinkData` on Android and `AppLinkUtility.fetchDeferredAppLink` on iOS, and returns the result.
-- **Does not change Facebook SDK settings.** It never touches auto-logged app events or advertiser tracking, so it is safe next to [`facebook_app_events`](https://pub.dev/packages/facebook_app_events) and your ad measurement.
+- **Does not change Facebook SDK settings.** It never touches auto-logged app events or advertiser tracking, so it is safe next to [`facebook_app_events`](https://pub.dev/packages/facebook_app_events) and your ad measurement. The only exception is the opt-in `debug` flag, which turns on request logging.
 - **No lost links.** The result is returned from the call itself. There is no stream to subscribe to before the response arrives.
 - **Errors are reported.** Facebook SDK failures surface as a `PlatformException` instead of an empty string.
 
@@ -37,6 +37,21 @@ Future<void> handleFirstLaunch() async {
 ```
 
 Meta returns the deferred link **only on the first launch after install**. Call `fetchDeferredDeepLink()` once, store the result, and route the user when your app is ready (for example after onboarding or sign in).
+
+## Debugging
+
+Pass `debug: true` to log the result and the Facebook SDK network requests, including Meta's raw response:
+
+```dart
+import 'package:flutter/foundation.dart';
+
+const deferredDeepLink = FacebookDeferredDeepLink(debug: kDebugMode);
+```
+
+- **Android:** `adb logcat | grep -iE "FacebookDeferredDeepLink|GraphRequest|Response"`
+- **iOS:** Xcode console, filter by `FacebookDeferredDeepLink`.
+
+`debug` is `false` by default. When it is `true`, the plugin enables the Facebook SDK request logging for the rest of the app session, so keep it off in release builds.
 
 ## Testing
 

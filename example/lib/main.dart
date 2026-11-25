@@ -1,4 +1,5 @@
 import 'package:facebook_deferred_deep_link/facebook_deferred_deep_link.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 
@@ -14,7 +15,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  static const _deferredDeepLink = FacebookDeferredDeepLink();
+  static const _deferredDeepLink = FacebookDeferredDeepLink(debug: kDebugMode);
 
   String _status = 'Fetching deferred deep link...';
 

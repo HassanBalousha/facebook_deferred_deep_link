@@ -13,5 +13,6 @@ class PigeonFacebookDeferredDeepLink extends FacebookDeferredDeepLinkPlatform {
   final FacebookDeferredDeepLinkPluginApi _hostApi;
 
   @override
-  Future<String?> fetchDeferredDeepLink() => _hostApi.fetchDeferredDeepLink();
+  Future<String?> fetchDeferredDeepLink({bool debug = false}) =>
+      _hostApi.fetchDeferredDeepLink(debug);
 }

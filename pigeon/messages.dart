@@ -16,5 +16,5 @@ import 'package:pigeon/pigeon.dart';
 @HostApi()
 abstract class FacebookDeferredDeepLinkPluginApi {
   @async
-  String? fetchDeferredDeepLink();
+  String? fetchDeferredDeepLink(bool debug);
 }

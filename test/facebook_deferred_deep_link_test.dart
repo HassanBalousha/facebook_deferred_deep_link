@@ -11,17 +11,24 @@ class FakeFacebookDeferredDeepLinkPlatform
   FakeFacebookDeferredDeepLinkPlatform(this._fetch);
 
   final Future<String?> Function() _fetch;
+  bool? receivedDebug;
 
   @override
-  Future<String?> fetchDeferredDeepLink() => _fetch();
+  Future<String?> fetchDeferredDeepLink({bool debug = false}) {
+    receivedDebug = debug;
+    return _fetch();
+  }
 }
 
 void main() {
   const plugin = FacebookDeferredDeepLink();
 
-  void givenNativeLink(Future<String?> Function() fetch) {
-    FacebookDeferredDeepLinkPlatform.instance =
-        FakeFacebookDeferredDeepLinkPlatform(fetch);
+  FakeFacebookDeferredDeepLinkPlatform givenNativeLink(
+    Future<String?> Function() fetch,
+  ) {
+    final fake = FakeFacebookDeferredDeepLinkPlatform(fetch);
+    FacebookDeferredDeepLinkPlatform.instance = fake;
+    return fake;
   }
 
   test('PigeonFacebookDeferredDeepLink is the default instance', () {
@@ -67,5 +74,21 @@ void main() {
       plugin.fetchDeferredDeepLink(),
       throwsA(isA<PlatformException>()),
     );
+  });
+
+  test('debug logging is off by default', () async {
+    final fake = givenNativeLink(() async => null);
+
+    await plugin.fetchDeferredDeepLink();
+
+    expect(fake.receivedDebug, isFalse);
+  });
+
+  test('forwards debug: true to the platform', () async {
+    final fake = givenNativeLink(() async => null);
+
+    await const FacebookDeferredDeepLink(debug: true).fetchDeferredDeepLink();
+
+    expect(fake.receivedDebug, isTrue);
   });
 }

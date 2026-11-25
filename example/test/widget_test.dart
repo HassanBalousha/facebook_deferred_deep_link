@@ -7,7 +7,8 @@ class FakeFacebookDeferredDeepLinkPlatform
     with MockPlatformInterfaceMixin
     implements FacebookDeferredDeepLinkPlatform {
   @override
-  Future<String?> fetchDeferredDeepLink() async => 'myapp://settings';
+  Future<String?> fetchDeferredDeepLink({bool debug = false}) async =>
+      'myapp://settings';
 }
 
 void main() {
